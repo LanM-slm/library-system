@@ -2,18 +2,11 @@
     {
         "name": "Bob",
         "id": 1,
-        "books": [
-            "Master I Margarita"
-        ]
-    },
-    {
-        "name": "Alice",
-        "id": 2,
         "books": []
     },
     {
         "name": "Lana",
-        "id": 369,
+        "id": 137,
         "books": []
     }
 ]

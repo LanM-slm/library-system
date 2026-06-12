@@ -56,7 +56,7 @@ class Book:
     def to_dict(self):
         return {'name': self.name,
                 'author': self.author,
-                'status': BookStatus.AVAILABLE.value}
+                'status': self.status}
 
 class Library:
     def add_book(self, obj, books):
@@ -81,7 +81,7 @@ class Library:
         if books == []:
             return False, None
         for book in books:
-            if book_name in book.values() and author_name in book.values():
+            if book_name == book['name'] and author_name == book['author']:
                 obj = Book(book['name'], book['author'], book['status'])
                 return True, obj
         return False, None
@@ -92,7 +92,22 @@ class Library:
         obj = User(name)
         users.append(obj.to_dict())
         return users
-
+    def find_indexB(self, books, book_name, author_name):
+        for i, book in enumerate(books):
+            if book['name'] == book_name and book['author'] == author_name:
+                return i
+    def find_indexU(self, users, user_name):
+        for i, user in enumerate(users):
+            if user['name'] == user_name:
+                return i
+    def search_user_books(self, user, book):
+        if book.name in user.books:
+            return True
+        else: 
+            return False
+    def return_book(self, user, book):
+        user.books.remove(book.name)
+        book.status = BookStatus.AVAILABLE.value
 class User:
     def __init__(self, name, id=random.randint(1, 500), books=[]):
         self.name = name
