@@ -66,13 +66,34 @@ def fourth(library, users, books, write_user, write_book):
                 write_user.write(users)
                 write_book.write(books)
                 print('Book succesfully returned!')
+
+def fifth(library, books):
+    while True:
+        search = input('Search by book name or author name(b/a)? ').lower().strip()
+        if search == 'b':
+            book_name = input('Enter book name: ').title().rstrip().lstrip()
+            print(library.search_book(books, book_name))
+            break
+        elif search == 'a':
+            author_name = input('Enter author name: ').title().rstrip().lstrip()
+            print(library.search_author(books, author_name))
+            break
+        else:
+            print('Invalid input!')
+            continue
+
+def sixth(library):
+    print('Todays trackers!')
+    print('=' * 20)
+    print(f'Registers: {library.registers}\nBorrows: {library.borrows}\nReturns: {library.returns}\nAdds: {library.adds}')
+
 def seventh(library, users, write_user):
     user_name = input('Enter your name: ').title().rstrip().lstrip()
-    obj, flag = library.find_name(user_name, open_user.open())
+    obj, flag = library.find_name(user_name, users)
     if flag:
         print('You have a registration card!')
     else:
-        users = library.register(open_user.open(), user_name)
+        users = library.register(users, user_name)
         write_user.write(users)
         print('Succesfully registerder!')
 
@@ -82,23 +103,33 @@ def main():
     write_book = WriteBook()
     users = OpenUser().open()
     write_user = WriteUser()
-    print('1)Add new book')
-    print('2)Display all available books')
-    print('3)Borow book')
-    print('4)Return book')
-    print('5)Search_book')
-    print('7)Register')
-    user_answer = int(input('Enter a variant: '))
-    if user_answer == 1:
-        first(library, books, write_book)
-    elif user_answer == 2:
-        second(library, books)
-    elif user_answer == 3:
-        third(library, users, books, write_user, write_book)
-    elif user_answer == 4:
-        fourth(library, users, books, write_user, write_book)
-    elif user_answer == 7:
-        seventh(library, users, write_user)
+    while True:
+        print('1)Add new book')
+        print('2)Display all available books')
+        print('3)Borow book')
+        print('4)Return book')
+        print('5)Search_book')
+        print('6)Tracking library statistics')
+        print('7)Register')
+        user_answer = int(input('Enter a variant: '))
+        if user_answer == 1:
+            first(library, books, write_book)
+        elif user_answer == 2:
+            second(library, books)
+        elif user_answer == 3:
+            third(library, users, books, write_user, write_book)
+        elif user_answer == 4:
+            fourth(library, users, books, write_user, write_book)
+        elif user_answer == 5:
+            fifth(library, books)
+        elif user_answer== 6:
+            sixth(library)
+        elif user_answer == 7:
+            seventh(library, users, write_user)
         
 main()
-
+#Dont forget to add registration case 
+#Dont forget about method for writing object into list
+#Dont forget error handling
+#Dont forget ask ynker Tigran
+#randint

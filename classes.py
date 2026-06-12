@@ -59,8 +59,14 @@ class Book:
                 'status': self.status}
 
 class Library:
+    def __init__(self):
+        self.borrows = 0
+        self.returns = 0
+        self.adds = 0
+        self.registers = 0
     def add_book(self, obj, books):
         books.append(obj)
+        self.adds += 1
         return books
     def display_book(self, books):
         for book in books:
@@ -88,9 +94,11 @@ class Library:
     def borrow_book(self, user, book):
         book.status = BookStatus.ISSUED.value
         user.books.append(book.name)
+        self.borrows += 1
     def register(self, users, name):
         obj = User(name)
         users.append(obj.to_dict())
+        self.registers += 1
         return users
     def find_indexB(self, books, book_name, author_name):
         for i, book in enumerate(books):
@@ -108,6 +116,23 @@ class Library:
     def return_book(self, user, book):
         user.books.remove(book.name)
         book.status = BookStatus.AVAILABLE.value
+        self.returns += 1
+    def search_book(self, books, book_name):
+        book_list = []
+        for book in books:
+            if book['name'] == book_name:
+                book_list.append(book)
+        if book_list:
+            return book_list
+        return 'Book does not exist!'
+    def search_author(self, books, author_name):
+        book_list = []
+        for book in books:
+            if book['author'] == author_name:
+                book_list.append(book)
+        if book_list:
+            return book_list
+        return 'There are currently no works by this author!'
 class User:
     def __init__(self, name, id=random.randint(1, 500), books=[]):
         self.name = name
