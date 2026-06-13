@@ -1,7 +1,19 @@
 from classes import Book, Library
 from classes import OpenBook, WriteBook
 from classes import OpenUser, WriteUser
-from classes import BookStatus
+from classes import BookStatus, ToObject
+
+#Writing an object back to a file as a dictionary
+def to_obj_book(to_obj, book_name, author_name, books, write_book, obj2):
+    idx_b = to_obj.find_indexB(books, book_name, author_name)
+    books[idx_b] = obj2.to_dict()
+    write_book.write(books)
+
+#Writing an object back to a file as a dictionary
+def to_obj_user(to_obj, users, user_name, write_user, obj):
+    idx_u = to_obj.find_indexU(users, user_name)
+    users[idx_u] = obj.to_dict()
+    write_user.write(users)
 
 def ask_for_register(library, users, write_user):
     while True:
@@ -38,7 +50,7 @@ def first(library, books, write_book):
 def second(library, books):
     library.display_book(books)
 
-def third(library, users, books, write_user, write_book):
+def third(library, users, books, write_user, write_book, to_obj):
     try:
         user_name = input('Enter your name: ').title().strip()
         flag, obj = library.find_name(user_name, users)
@@ -52,12 +64,8 @@ def third(library, users, books, write_user, write_book):
             if flag2:
                 if obj2.status == BookStatus.AVAILABLE.value:
                     library.borrow_book(obj, obj2)
-                    idx_u = library.find_indexU(users, user_name)
-                    users[idx_u] = obj.to_dict()
-                    idx_b = library.find_indexB(books, book_name, author_name)
-                    books[idx_b] = obj2.to_dict()
-                    write_book.write(books)
-                    write_user.write(users)
+                    to_obj_user(to_obj, users, user_name, write_user, obj)
+                    to_obj_book(to_obj, book_name, author_name, books, write_book, obj2)
                     print('Book successfully borrowed!')
                 else:
                     print('Sorry, that book is already borrowed!')
@@ -67,7 +75,7 @@ def third(library, users, books, write_user, write_book):
         print('Bye, bye!')
         exit()
 
-def fourth(library, users, books, write_user, write_book):
+def fourth(library, users, books, write_user, write_book, to_obj):
     try:
         user_name = input('Enter your name: ').title().lstrip().rstrip()
         flag, obj = library.find_name(user_name, users)
@@ -86,13 +94,9 @@ def fourth(library, users, books, write_user, write_book):
                     print('That book is not in your book list!')
                 else:
                     library.return_book(obj, obj2)
-                    idx_u = library.find_indexU(users, user_name)
-                    users[idx_u] = obj.to_dict()
-                    idx_b = library.find_indexB(books, book_name, author_name)
-                    books[idx_b] = obj2.to_dict()
-                    write_user.write(users)
-                    write_book.write(books)
                     print('Book succesfully returned!')
+                    to_obj_user(to_obj, users, user_name, write_user, obj)
+                    to_obj_book(to_obj, book_name, author_name, books, write_book, obj2)
     except KeyboardInterrupt:
         print('Bye, bye!')
         exit()
@@ -117,7 +121,7 @@ def fifth(library, books):
             exit()
         
 def sixth(library):
-    print('Todays trackers!')
+    print('Today trackers!')
     print('=' * 20)
     print(f'Registers: {library.registers}\nBorrows: {library.borrows}\nReturns: {library.returns}\nAdds: {library.adds}')
 
@@ -141,6 +145,7 @@ def main():
     write_book = WriteBook()
     users = OpenUser().open()
     write_user = WriteUser()
+    to_obj = ToObject()
     print('IMPORTANT: To exit the library system, press Ctrl+C')
     print('1)Add new book')
     print('2)Display all available books')
@@ -157,9 +162,9 @@ def main():
             elif user_answer == 2:
                 second(library, books)
             elif user_answer == 3:
-                third(library, users, books, write_user, write_book)
+                third(library, users, books, write_user, write_book, to_obj)
             elif user_answer == 4:
-                fourth(library, users, books, write_user, write_book)
+                fourth(library, users, books, write_user, write_book, to_obj)
             elif user_answer == 5:
                 fifth(library, books)
             elif user_answer == 6:
@@ -175,5 +180,3 @@ def main():
         
 main()
 #randint
-#comments
-#class for object 

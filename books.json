@@ -2,7 +2,7 @@
     {
         "name": "\u041c\u0430\u0441\u0442\u0435\u0440 \u0418 \u041c\u0430\u0440\u0433\u0430\u0440\u0438\u0442\u0430",
         "author": "\u041c\u0438\u0445\u0430\u0438\u043b \u0411\u0443\u043b\u0433\u0430\u043a\u043e\u0432",
-        "status": "available"
+        "status": "issued"
     },
     {
         "name": "\u041a\u0430\u0432\u043a\u0430\u0437\u0441\u043a\u0438\u0439 \u041f\u043b\u0435\u043d\u043d\u0438\u043a",
@@ -17,6 +17,16 @@
     {
         "name": "Xent",
         "author": "Raffi",
+        "status": "issued"
+    },
+    {
+        "name": "Spanvac Axavni",
+        "author": "Shirvanzade",
+        "status": "available"
+    },
+    {
+        "name": "\u0412",
+        "author": "\u0412",
         "status": "available"
     }
 ]
