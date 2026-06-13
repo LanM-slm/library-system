@@ -58,6 +58,14 @@ class Book:
                 'author': self.author,
                 'status': self.status}
 
+class User:
+    def __init__(self, name, id=random.randint(1, 500), books=[]):
+        self.name = name
+        self.id = id
+        self.books = books
+    def to_dict(self):
+        return self.__dict__
+        
 class Library:
     def __init__(self):
         self.borrows = 0
@@ -133,11 +141,5 @@ class Library:
         if book_list:
             return book_list
         return 'There are currently no works by this author!'
-class User:
-    def __init__(self, name, id=random.randint(1, 500), books=[]):
-        self.name = name
-        self.id = id
-        self.books = books
-    def to_dict(self):
-        return self.__dict__
+    
     
