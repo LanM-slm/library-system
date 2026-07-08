@@ -1,33 +1,33 @@
 import json
 
-def write(books):
+def write_book(books):
     try:
-        with open('books.json', 'w', encoding='utf-8') as f:
+        with open('utils/data/books.json', 'w', encoding='utf-8') as f:
             json.dump(books, f, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print('Book file does not exist!')
         exit()
 
-def open():
+def open_user():
     try:
-        with open('user.json', 'r', encoding='utf-8') as f:
+        with open('utils/data/user.json', 'r', encoding='utf-8') as f:
             reader = json.load(f)
             return reader
     except FileNotFoundError:
         print('Users file does not exist!')
         exit()
 
-def write(user):
+def write_user(user):
     try:
-        with open('user.json', 'w', encoding='utf-8') as f:
+        with open('utils/data/user.json', 'w', encoding='utf-8') as f:
             json.dump(user, f, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print('Users file does not exist!')
         exit()  
 
-def open():
+def open_book():
     try:
-        with open('books.json', 'r', encoding='utf-8') as f:
+        with open('utils/data/books.json', 'r', encoding='utf-8') as f:
             reader = json.load(f)
             return reader
     except FileNotFoundError:

@@ -1,12 +1,17 @@
-def to_obj_book(to_obj, book_name, author_name, books, write_book, obj2):
-    idx_b = to_obj.find_indexB(books, book_name, author_name)
-    books[idx_b] = obj2.to_dict()
-    write_book.write(books)
+from utils.json_utils import write_user, write_book
+from models.book import Book
+from utils.enums import BookStatus
+from models.member import User
 
-def to_obj_user(to_obj, users, user_name, write_user, obj):
-    idx_u = to_obj.find_indexU(users, user_name)
+def to_obj_book(book_name, author_name, books, obj2):
+    idx_b = obj2.find_indexB(books, book_name, author_name)
+    books[idx_b] = obj2.to_dict()
+    write_book(books)
+
+def to_obj_user(users, user_name, obj):
+    idx_u = obj.find_indexU(users, user_name)
     users[idx_u] = obj.to_dict()
-    write_user.write(users)
+    write_user(users)
 
 def ask_for_register(library, users, write_user):
     while True:
@@ -24,7 +29,7 @@ def ask_for_register(library, users, write_user):
             print('Bye, bye!')
             exit()
 
-def first(library, books, write_book):
+def first(library, books):
     try:
         book_name = input('Enter book name: ').title()
         author_name = input('Enter author name: ').title()
@@ -34,7 +39,7 @@ def first(library, books, write_book):
         else:
             obj_book = Book(book_name, author_name)
             books_write = library.add_book(obj_book.to_dict(), books)
-            write_book.write(books_write)
+            write_book(books_write)
             print('Book is added!')
     except KeyboardInterrupt:
         print('Bye, bye!')
@@ -43,7 +48,7 @@ def first(library, books, write_book):
 def second(library, books):
     library.display_book(books)
 
-def third(library, users, books, write_user, write_book, to_obj):
+def third(library, users, books):
     try:
         user_name = input('Enter your name: ').title().strip()
         flag, obj = library.find_name(user_name, users)
@@ -57,8 +62,8 @@ def third(library, users, books, write_user, write_book, to_obj):
             if flag2:
                 if obj2.status == BookStatus.AVAILABLE.value:
                     library.borrow_book(obj, obj2)
-                    to_obj_user(to_obj, users, user_name, write_user, obj)
-                    to_obj_book(to_obj, book_name, author_name, books, write_book, obj2)
+                    to_obj_user(users, user_name, obj)
+                    to_obj_book(book_name, author_name, books, obj2)
                     print('Book successfully borrowed!')
                 else:
                     print('Sorry, that book is already borrowed!')
@@ -68,7 +73,7 @@ def third(library, users, books, write_user, write_book, to_obj):
         print('Bye, bye!')
         exit()
 
-def fourth(library, users, books, write_user, write_book, to_obj):
+def fourth(library, users, books):
     try:
         user_name = input('Enter your name: ').title().lstrip().rstrip()
         flag, obj = library.find_name(user_name, users)
@@ -88,8 +93,8 @@ def fourth(library, users, books, write_user, write_book, to_obj):
                 else:
                     library.return_book(obj, obj2)
                     print('Book succesfully returned!')
-                    to_obj_user(to_obj, users, user_name, write_user, obj)
-                    to_obj_book(to_obj, book_name, author_name, books, write_book, obj2)
+                    to_obj_user(users, user_name, obj)
+                    to_obj_book(book_name, author_name, books, obj2)
     except KeyboardInterrupt:
         print('Bye, bye!')
         exit()
@@ -118,7 +123,7 @@ def sixth(library):
     print('=' * 20)
     print(f'Registers: {library.registers}\nBorrows: {library.borrows}\nReturns: {library.returns}\nAdds: {library.adds}')
 
-def seventh(library, users, write_user):
+def seventh(library, users):
     try:
         user_name = input('Enter your name: ').title().rstrip().lstrip()
         obj, flag = library.find_name(user_name, users)
@@ -126,7 +131,7 @@ def seventh(library, users, write_user):
             print('You have a registration card!')
         else:
             users = library.register(users, user_name)
-            write_user.write(users)
+            write_user(users)
             print('Succesfully registerder!')
     except KeyboardInterrupt:
         print('Bye, bye!')

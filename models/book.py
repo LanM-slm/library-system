@@ -1,3 +1,5 @@
+from utils.enums import BookStatus
+
 class Book:
     def __init__(self, name, author, status=BookStatus.AVAILABLE.value):
         self.name = name
